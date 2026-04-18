@@ -7,11 +7,14 @@ import z from "zod";
 import { registerSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 export default function RegisterForm() {
+    const router = useRouter()
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<z.infer<typeof registerSchema>>({
+    const { register, handleSubmit,reset, formState: { errors, isSubmitting } } = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
             name: '',
@@ -22,7 +25,19 @@ export default function RegisterForm() {
     })
 
     const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-        console.log(values)
+        try {
+            const response = await fetch('/api/register', {
+                method: "POST",
+                body: JSON.stringify(values)
+            })
+            if(response.ok) {
+                toast.success('Registration successfully!')
+                reset();
+                router.push('/')
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
     return (
         <div className="w-full max-w-md">

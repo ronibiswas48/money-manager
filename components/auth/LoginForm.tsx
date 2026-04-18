@@ -9,6 +9,7 @@ import { loginSchema } from "@/lib/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { signIn } from "next-auth/react"
 
 export default function LoginForm() {
     const router = useRouter();
@@ -26,7 +27,20 @@ export default function LoginForm() {
     })
 
     const LoginSubmit = async(values: z.infer<typeof loginSchema>) => {
-        console.log(values)
+        setError(null)
+
+        const response = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false
+        })
+
+        if(response?.error) {
+            setError("Invalid Email or Password")
+        } else {
+            router.push('/dashboard')
+            router.refresh()
+        }
     }
 
   return (
