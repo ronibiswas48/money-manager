@@ -17,13 +17,19 @@ export const loginSchema = z.object({
     password: z.string().min(6, 'Password is required!')
 })
 
+// Validation Schema
+export const transactionSchema = z.object({
+  title: z.string().min(2, "Small title required"),
+  amount: z.string().min(1, "Amount required").refine((val) => !isNaN(Number(val)), "Invalid number"),
+  category: z.enum(["income", "personal", "medicine", "family", "savings"]),
+})
+
 
 export interface ITransaction {
     userId: mongoose.Types.ObjectId;
     title: string;
     amount: number;
     category: "income" | "personal" | "medicine" | "family" | "savings";
-    description?: string;
     date: Date;
     createdAt: Date;
     updatedAt: Date;
