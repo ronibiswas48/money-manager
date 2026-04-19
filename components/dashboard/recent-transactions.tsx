@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { format } from "date-fns"
 
 const getCategoryDetails = (category: string) => {
   switch (category) {
@@ -27,12 +28,13 @@ const getCategoryDetails = (category: string) => {
 export function RecentTransactions({ data }: { data: any[] }) {
   return (
     <div className="w-full space-y-2">
-      {/* Table Header - Only visible on Desktop */}
-      <div className="hidden md:grid grid-cols-4 px-4 py-3 bg-zinc-50 dark:bg-zinc-900 border rounded-t-lg font-semibold text-sm">
-        <div>Description</div>
+      {/* Table Header - Desktop-e 5 columns kora hoyeche */}
+      <div className="hidden md:grid grid-cols-5 px-4 py-3 bg-zinc-50 dark:bg-zinc-900 border rounded-t-lg font-semibold text-sm">
+        <div className="col-span-1">Description</div>
+        <div>Date</div>
         <div>Category</div>
         <div className="text-right">Amount</div>
-        <div className="text-right">Action</div>
+        <div className="text-right pr-2">Action</div>
       </div>
 
       {/* Transactions List */}
@@ -40,34 +42,46 @@ export function RecentTransactions({ data }: { data: any[] }) {
         {data.map((item) => {
           const details = getCategoryDetails(item.category);
           return (
-            <div 
-              key={item._id} 
-              className="flex flex-col md:grid md:grid-cols-4 p-4 md:px-4 md:py-3 bg-white dark:bg-zinc-950 border md:border-0 md:border-b last:border-0 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all rounded-lg md:rounded-none"
+            <div
+              key={item._id}
+              className="flex flex-col md:grid md:grid-cols-5 p-4 md:px-4 md:py-3 bg-white dark:bg-zinc-950 border md:border-0 md:border-b last:border-0 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all rounded-lg md:rounded-none items-center"
             >
-              {/* Mobile Layout: Top Row (Title + Action) */}
-              <div className="flex justify-between items-start md:block">
-                <span className="font-medium text-sm md:text-base line-clamp-1">
-                  {item.title}
-                </span>
+              {/* 1. Description & Action (Mobile) */}
+              <div className="flex justify-between items-start md:block w-full md:col-span-1">
+                <div className="flex flex-col">
+                  <span className="font-medium text-sm md:text-base line-clamp-1">
+                    {item.title}
+                  </span>
+                  {/* Mobile-e title-er niche subtle date */}
+                  <span className="text-[10px] text-zinc-500 md:hidden mt-0.5">
+                    {new Date(item.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                  </span>
+                </div>
                 <div className="md:hidden">
-                   <ActionMenu id={item._id} />
+                  <ActionMenu id={item._id} />
                 </div>
               </div>
 
-              {/* Category */}
-              <div className="mt-2 md:mt-0">
+              {/* 2. Date (Only Desktop View) */}
+              <div className="hidden md:flex items-center text-sm text-zinc-600">
+                {new Date(item.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+              </div>
+
+              {/* 3. Category */}
+              <div className="mt-2 md:mt-0 w-full md:w-auto">
                 <div className={`flex items-center gap-1.5 w-fit px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium border ${details.color} border-current/10`}>
                   {details.icon}
                   <span>{details.label}</span>
                 </div>
               </div>
 
-              {/* Amount */}
-              <div className={`mt-1 md:mt-0 md:text-right font-bold text-base ${item.category === 'income' ? 'text-green-600' : 'text-red-600'}`}>
+              {/* 4. Amount */}
+              <div className={`mt-1 md:mt-0 w-full md:w-auto md:text-right font-bold text-base ${item.category === 'income' ? 'text-green-600' : 'text-red-600'}`}>
+                <span className="md:hidden text-[10px] text-zinc-400 font-normal mr-1">Amount:</span>
                 {item.category === 'income' ? '+' : '-'} ৳{item.amount.toLocaleString()}
               </div>
 
-              {/* Desktop Action */}
+              {/* 5. Desktop Action */}
               <div className="hidden md:flex justify-end">
                 <ActionMenu id={item._id} />
               </div>
