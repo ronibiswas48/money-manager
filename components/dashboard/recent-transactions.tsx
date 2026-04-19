@@ -1,14 +1,8 @@
 "use client"
 
-import { Pencil, Trash2, Pill, Home, Heart, Wallet, Banknote, MoreVertical } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { format } from "date-fns"
+import { Pill, Home, Heart, Wallet, Banknote, MoreVertical } from "lucide-react"
+import { ActionMenu } from "./action-menu";
+
 
 const getCategoryDetails = (category: string) => {
   switch (category) {
@@ -91,25 +85,4 @@ export function RecentTransactions({ data }: { data: any[] }) {
       </div>
     </div>
   )
-}
-
-// Separate Action Menu to keep code clean
-function ActionMenu({ id }: { id: string }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <MoreVertical className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem className="text-blue-600 cursor-pointer">
-          <Pencil className="mr-2 h-4 w-4" /> Edit
-        </DropdownMenuItem>
-        <DropdownMenuItem className="text-red-600 cursor-pointer">
-          <Trash2 className="mr-2 h-4 w-4" /> Delete
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
 }

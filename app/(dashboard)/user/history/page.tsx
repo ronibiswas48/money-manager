@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function HistoryPage() {
