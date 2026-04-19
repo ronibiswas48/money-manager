@@ -1,44 +1,66 @@
 import { AddTransactionForm } from "@/components/dashboard/add-transaction-form";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { SummaryCards } from "@/components/dashboard/summary-cards";
-// import { RecentTransactions } from "@/components/dashboard/recent-transactions";
-// import { AddTransactionForm } from "@/components/dashboard/add-transaction-form";
-
-const data = [
-  {
-    "_id": "642a1b2c3d4e5f6g7h8i9j01",
-    "title": "Monthly Salary",
-    "amount": 25000,
-    "category": "income",
-    "date": "2026-04-19T08:00:00.000Z"
-  },
-  {
-    "_id": "642a1b2c3d4e5f6g7h8i9j02",
-    "title": "Napa Extend & Gastric Tab",
-    "amount": 450,
-    "category": "medicine",
-    "date": "2026-04-19T10:30:00.000Z"
-  },
-  {
-    "_id": "642a1b2c3d4e5f6g7h8i9j03",
-    "title": "Emergency Fund Savings",
-    "amount": 5000,
-    "category": "savings",
-    "date": "2026-04-19T11:00:00.000Z"
-  }
-]
+import { dbConnect } from "@/database/db";
+import { authOptions } from "@/lib/auth";
+import { Transaction } from "@/models/Transaction";
+import mongoose from "mongoose";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function UserHomePage() {
-  // Logic: Fetch today's data from database
-  const todaySummary = { income: 5000, cost: 1200, balance: 3800 };
+  // check user are logged in
+  const session = await getServerSession(authOptions)
+  if (!session) redirect('/auth')
+
+  // connect to database
+  await dbConnect()
+
+  // today date logic
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999)
+
+  // Fetch today's data from database
+  const todayAllTransactions = await Transaction.find({
+    userId: session.user.id,
+    date: { $gte: startOfDay, $lte: endOfDay }
+  })
+
+  // summary logic
+  let income = 0;
+  let cost = 0;
+
+  todayAllTransactions.forEach(item => {
+    const amount = Number(item.amount) || 0;
+    if (item.category === 'income') {
+      income += amount;
+    } else {
+      cost += amount;
+    }
+  })
+  const balance = income - cost;
+
+  const rawData = await Transaction.find({
+    userId: new mongoose.Types.ObjectId(session.user.id),
+    date: { $gte: startOfDay, $lte: endOfDay }
+  })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .lean();
+
+  const recentHistory = JSON.parse(JSON.stringify(rawData));
+
 
   return (
     <div className="space-y-6">
       {/* 1. Header Cards */}
-      <SummaryCards 
-        income={todaySummary.income} 
-        cost={todaySummary.cost} 
-        balance={todaySummary.balance} 
+      <SummaryCards
+        income={income}
+        cost={cost}
+        balance={balance}
       />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
@@ -57,7 +79,7 @@ export default async function UserHomePage() {
               <h2 className="text-lg font-semibold">Today's History</h2>
               <button className="text-sm text-blue-600 hover:underline">View All</button>
             </div>
-            <RecentTransactions data={data} />
+            <RecentTransactions data={recentHistory} />
           </div>
         </div>
       </div>
