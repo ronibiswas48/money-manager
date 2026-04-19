@@ -1,10 +1,10 @@
-import AuthFormLayout from "@/components/auth/AuthFormLayout";
-import Image from "next/image";
+
+import AuthLayout from "./auth/page";
 
 export default function Home() {
   return (
     <div className="">
-      <AuthFormLayout />
+      <AuthLayout />
     </div>
   );
 }

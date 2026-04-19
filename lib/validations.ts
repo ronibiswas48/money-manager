@@ -1,4 +1,5 @@
-import z, { email } from "zod";
+import mongoose from "mongoose";
+import z from "zod";
 
 export const registerSchema = z.object({
     name: z.string().min(3, 'Name must be at least 3 characters long!'),
@@ -15,3 +16,15 @@ export const loginSchema = z.object({
     email: z.string().email("Enter valid email address!"),
     password: z.string().min(6, 'Password is required!')
 })
+
+
+export interface ITransaction {
+    userId: mongoose.Types.ObjectId;
+    title: string;
+    amount: number;
+    category: "income" | "personal" | "medicine" | "family" | "savings";
+    description?: string;
+    date: Date;
+    createdAt: Date;
+    updatedAt: Date;
+}

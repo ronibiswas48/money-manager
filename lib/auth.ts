@@ -48,21 +48,25 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id
+                token.role = (user as any).role
             }
-            return token
+            return token;
         },
         async session({ session, token }) {
             if (session.user) {
-                (session.user as any).id = token.id
+                (session.user as any).id = token.id;
+                (session.user as any).role = token.role;
             }
             return session;
         }
     },
     pages: {
-        signIn: "/",
+        signIn: "/auth",
     },
     session: {
         strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days 
+        updateAge: 24 * 60 * 60,   // everyday session update
     },
     secret: process.env.NEXTAUTH_SECRET,
 }
