@@ -20,7 +20,7 @@ export const loginSchema = z.object({
 // Validation Schema
 export const transactionSchema = z.object({
   title: z.string().min(2, "Small title required"),
-  amount: z.string().min(1, "Amount required").refine((val) => !isNaN(Number(val)), "Invalid number"),
+  amount: z.string().min(1, "Amount required"),
   category: z.enum(["income", "personal", "medicine", "family", "savings"]),
 })
 

@@ -16,13 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field" // Apnar custom field components
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { transactionSchema } from "@/lib/validations"
 
 
 export function AddTransactionForm() {
   const router = useRouter()
-  
+
   const {
     register,
     handleSubmit,
@@ -41,32 +41,34 @@ export function AddTransactionForm() {
       const res = await fetch("/api/transactions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          amount: Number(values.amount),
-        }),
+        body: JSON.stringify(values),
       })
 
-      if (!res.ok) throw new Error("Failed to add")
+      if (!res.ok) {
+      const errorData = await res.json();
+      console.log("Server error details:", errorData);
+      throw new Error("Failed to add");
+    }
 
       toast.success("Transaction added successfully!")
       reset()
       router.refresh()
     } catch (error) {
-      toast.error("Kothao vul hoyeche, abr chesta korun")
+      toast.error("Something went wrong");
+      console.log(error)
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <FieldGroup className="space-y-4">
-        
+
         {/* Title Field */}
         <Field>
           <FieldLabel>Title / Purpose</FieldLabel>
-          <Input 
-            {...register("title")} 
-            placeholder="e.g. Income or Cost" 
+          <Input
+            {...register("title")}
+            placeholder="e.g. Income or Cost"
             className={errors.title ? "border-red-500" : ""}
           />
           {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
@@ -76,9 +78,9 @@ export function AddTransactionForm() {
           {/* Amount Field */}
           <Field>
             <FieldLabel>Amount (৳)</FieldLabel>
-            <Input 
-              type="number" 
-              {...register("amount")} 
+            <Input
+              type="number"
+              {...register("amount")}
               placeholder="0.00"
               className={errors.amount ? "border-red-500" : ""}
             />
