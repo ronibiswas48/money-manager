@@ -45,17 +45,21 @@ export function AddTransactionForm() {
       })
 
       if (!res.ok) {
-      const errorData = await res.json();
-      console.log("Server error details:", errorData);
-      throw new Error("Failed to add");
-    }
+        const errorData = await res.json();
+        const errorMessage = typeof errorData === 'string'
+          ? errorData
+          : errorData.message || "Something went wrong";
+
+        toast.error(errorMessage);
+        return;
+      }
 
       toast.success("Transaction added successfully!")
       reset()
       router.refresh()
+
     } catch (error) {
       toast.error("Something went wrong");
-      console.log(error)
     }
   }
 
