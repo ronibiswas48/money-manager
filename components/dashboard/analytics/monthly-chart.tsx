@@ -15,7 +15,7 @@ export function MonthlyChart({ data }: { data: any[] }) {
     if (!isMounted) {
         return (
             <Card className="col-span-4 lg:col-span-3">
-                <div className="h-[400px] w-full animate-pulse bg-muted/20 rounded-lg" />
+                <div className="h-100 w-full animate-pulse bg-muted/20 rounded-lg" />
             </Card>
         )
     }

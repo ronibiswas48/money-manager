@@ -20,7 +20,10 @@ export async function GET(req: Request){
     // connect to database
     await dbConnect();
 
-    let query: any = { userId: (session.user as any).id };
+    let query: any = {
+        userId: (session.user as any).id,
+        type: { $ne: "withdraw" }
+    };
 
     // Category Filter
     if (category && category !== "all") {

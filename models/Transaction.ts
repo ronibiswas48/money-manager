@@ -22,7 +22,12 @@ const TransactionSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
-}, {timestamps: true})
+    },
+    type: {
+        type: String,
+        enum: ["deposit", "withdraw"],
+        default: "deposit"
+    },
+}, { timestamps: true })
 
 export const Transaction = models.Transaction || model('Transaction', TransactionSchema) 

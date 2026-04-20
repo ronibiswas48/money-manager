@@ -39,7 +39,8 @@ export async function POST(req: Request) {
             amount,
             category,
             date: new Date(),
-            userId: (session.user as any).id
+            userId: (session.user as any).id,
+            type: 'deposit'
         })
         return NextResponse.json(newTransaction, { status: 201 });
     } catch (error) {
