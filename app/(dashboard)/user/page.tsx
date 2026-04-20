@@ -6,6 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { Transaction } from "@/models/Transaction";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function UserHomePage() {
@@ -77,7 +78,9 @@ export default async function UserHomePage() {
           <div className="bg-white dark:bg-zinc-900 border rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Today's History</h2>
-              <button className="text-sm text-blue-600 hover:underline">View All</button>
+              <button className="text-sm text-blue-600 hover:underline">
+                <Link href={'/user/history'}>View All</Link>
+              </button>
             </div>
             <RecentTransactions data={recentHistory} />
           </div>

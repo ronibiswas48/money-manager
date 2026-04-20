@@ -2,6 +2,7 @@
 
 import { Pill, Home, Heart, Wallet, Banknote, MoreVertical } from "lucide-react"
 import { ActionMenu } from "./action-menu";
+import { useEffect, useState } from "react";
 
 
 const getCategoryDetails = (category: string) => {
@@ -19,7 +20,25 @@ const getCategoryDetails = (category: string) => {
   }
 }
 
-export function RecentTransactions({ data }: { data: any[] }) {
+export function RecentTransactions({ data: initialData }: { data: any[] }) {
+  const [transactions, setTransactions] = useState(initialData);
+
+  // 3. initialData change hole state update kora (Next.js server-side sync)
+  useEffect(() => {
+    setTransactions(initialData);
+  }, [initialData]);
+
+  // Delete handler
+  const handleDeleteSuccess = (id: string) => {
+    setTransactions((prev) => prev.filter((t) => t._id !== id));
+  };
+  // Update handler
+  const handleUpdateSuccess = (updatedItem: any) => {
+    setTransactions((prev) => 
+      prev.map((item) => (item._id === updatedItem._id ? updatedItem : item))
+    );
+  };
+
   return (
     <div className="w-full space-y-2">
       {/* Table Header - Desktop-e 5 columns kora hoyeche */}
@@ -33,7 +52,7 @@ export function RecentTransactions({ data }: { data: any[] }) {
 
       {/* Transactions List */}
       <div className="space-y-2 md:space-y-0 md:border md:rounded-b-lg overflow-hidden">
-        {data.map((item) => {
+        {transactions.map((item) => {
           const details = getCategoryDetails(item.category);
           return (
             <div
@@ -52,7 +71,7 @@ export function RecentTransactions({ data }: { data: any[] }) {
                   </span>
                 </div>
                 <div className="md:hidden">
-                  <ActionMenu id={item._id} />
+                  <ActionMenu item={item} onDeleteSuccess={handleDeleteSuccess} onUpdateSuccess={handleUpdateSuccess} />
                 </div>
               </div>
 
@@ -77,7 +96,7 @@ export function RecentTransactions({ data }: { data: any[] }) {
 
               {/* 5. Desktop Action */}
               <div className="hidden md:flex justify-end">
-                <ActionMenu id={item._id} />
+                <ActionMenu item={item} onDeleteSuccess={handleDeleteSuccess} onUpdateSuccess={handleUpdateSuccess} />
               </div>
             </div>
           );
