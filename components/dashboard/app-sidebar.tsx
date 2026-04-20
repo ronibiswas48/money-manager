@@ -8,6 +8,7 @@ import {
   User,
   Settings,
   ShieldCheck,
+  ChartNoAxesCombined
 } from "lucide-react"
 
 import {
@@ -33,14 +34,19 @@ const items = [
     icon: LayoutDashboard,
   },
   {
-    title: "Savings",
-    url: "/user/savings",
-    icon: PiggyBank,
+    title: "Analytics",
+    url: "/user/analytics",
+    icon: ChartNoAxesCombined,
   },
   {
     title: "History",
     url: "/user/history",
     icon: History,
+  },
+  {
+    title: "Savings",
+    url: "/user/savings",
+    icon: PiggyBank,
   },
   {
     title: "Statement",
