@@ -3,15 +3,23 @@
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from 'react';
 
 export function MonthlyChart({ data }: { data: any[] }) {
+    const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return <div className="h-80" />
   return (
     <Card className="col-span-4 lg:col-span-3">
       <CardHeader>
         <CardTitle>Cash Flow Analytics</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-100 w-full">
+        <div className="h-80 w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
               <defs>
