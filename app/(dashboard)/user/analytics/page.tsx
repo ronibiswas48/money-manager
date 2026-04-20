@@ -5,20 +5,6 @@ import { MonthlyChart } from "@/components/dashboard/analytics/monthly-chart";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 
-// Note: Real data fetch korar logic ekhane thakbe
-const chartData = [
-  { name: 'Jan', income: 45000, expense: 32000 },
-  { name: 'Feb', income: 52000, expense: 38000 },
-  { name: 'Mar', income: 48000, expense: 41000 },
-  { name: 'Apr', income: 61000, expense: 35000 },
-];
-
-const categoryData = [
-  { name: 'Food', value: 4500 },
-  { name: 'Medicine', value: 2000 },
-  { name: 'Family', value: 8000 },
-  { name: 'Savings', value: 5000 },
-];
 
 export default function AnalyticsPage() {
     const [data, setData] = useState<any>(null);
