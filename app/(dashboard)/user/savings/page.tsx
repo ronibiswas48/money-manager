@@ -8,12 +8,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { PiggyBank, ArrowDownCircle, History, TrendingUp } from "lucide-react";
 import toast from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function SavingsPage() {
   const [data, setData] = useState<any>(null);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(false);
+  const {data: session} = useSession()
+  if(!session) redirect('/auth')
 
   const fetchData = async () => {
     const res = await fetch("/api/savings");

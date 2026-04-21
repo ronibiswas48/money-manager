@@ -3,12 +3,16 @@
 import { CategoryPie } from "@/components/dashboard/analytics/category-pie";
 import { MonthlyChart } from "@/components/dashboard/analytics/monthly-chart";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 export default function AnalyticsPage() {
     const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const {data: session} = useSession()
+  if(!session) redirect('/auth')
 
   useEffect(() => {
     async function fetchAnalytics() {

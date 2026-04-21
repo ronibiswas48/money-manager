@@ -3,11 +3,15 @@
 import { useState, useEffect } from "react";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function HistoryPage() {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const {data: session} = useSession()
+  if(!session) redirect('/auth')
 
   useEffect(() => {
     const fetchHistory = async () => {

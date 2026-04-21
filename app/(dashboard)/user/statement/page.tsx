@@ -9,6 +9,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function StatementPage() {
     const [dailyData, setDailyData] = useState<any[]>([]);
@@ -17,6 +18,8 @@ export default function StatementPage() {
     const [activeFilter, setActiveFilter] = useState("all");
     const [dateRange, setDateRange] = useState({ start: "", end: "" });
     const { data: session } = useSession();
+
+    if(!session) redirect('/auth')
 
     useEffect(() => {
         setMounted(true);

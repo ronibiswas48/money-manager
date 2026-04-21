@@ -6,10 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User, Mail, ShieldCheck, Calendar, Wallet, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
   const [stats, setStats] = useState({ totalIncome: 0, totalCost: 0 });
+
+  if(!session) redirect('/auth')
 
   useEffect(() => {
     // Profile-e choto ekti summary dekhate API call
@@ -69,6 +72,10 @@ export default function ProfilePage() {
             <div className="flex justify-between border-b pb-2">
               <span className="text-slate-500 flex items-center gap-2"><Mail className="h-4 w-4" /> Email</span>
               <span className="font-medium">{session.user?.email}</span>
+            </div>
+            <div className="flex justify-between border-b pb-2">
+              <span className="text-slate-500 flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Role</span>
+              <span className="font-medium capitalize">{session.user?.role}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500 flex items-center gap-2"><Wallet className="h-4 w-4" /> Account Type</span>
