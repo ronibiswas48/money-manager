@@ -92,13 +92,13 @@ export default function ProfilePage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-green-50 rounded-lg">
+            <div className="p-4 light:bg-green-50 rounded-lg">
               <p className="text-xs text-green-600 font-bold uppercase">Total Income</p>
               <div className="flex items-center text-xl font-bold text-green-700">
                 <ArrowUpRight className="h-4 w-4 mr-1" /> ৳{stats.totalIncome.toLocaleString()}
               </div>
             </div>
-            <div className="p-4 bg-red-50 rounded-lg">
+            <div className="p-4 light:bg-red-50 rounded-lg">
               <p className="text-xs text-red-600 font-bold uppercase">Total Spent</p>
               <div className="flex items-center text-xl font-bold text-red-700">
                 <ArrowDownRight className="h-4 w-4 mr-1" /> ৳{stats.totalCost.toLocaleString()}

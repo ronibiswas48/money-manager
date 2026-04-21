@@ -197,7 +197,7 @@ export default function StatementPage() {
             <Card className="border-none shadow-sm">
                 <CardContent className="p-0">
                     <Table>
-                        <TableHeader className="bg-slate-50">
+                        <TableHeader className="light:bg-slate-50">
                             <TableRow>
                                 <TableHead>Date</TableHead>
                                 <TableHead>Daily Income</TableHead>
@@ -226,7 +226,7 @@ export default function StatementPage() {
             </Card>
 
             {activeFilter === "all" && (
-                <div className="flex items-center gap-2 text-amber-600 bg-amber-50 p-3 rounded-md border border-amber-200 text-sm">
+                <div className="flex items-center gap-2 text-amber-600 bg-amber-50 dark:bg-amber-50/0 p-3 rounded-md border border-amber-200 text-sm">
                     <AlertCircle className="h-4 w-4" />
                     PDF download is disabled for 'All' data to prevent server load. Please select 1 or 3 months.
                 </div>

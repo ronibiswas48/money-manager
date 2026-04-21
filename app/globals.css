@@ -2,6 +2,18 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+
+
+/* Globals.css er ekdom upore check korun */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

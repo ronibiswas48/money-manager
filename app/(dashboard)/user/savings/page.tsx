@@ -60,24 +60,24 @@ export default function SavingsPage() {
   );
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto bg-slate-50/50 min-h-screen">
+    <div className="space-y-6 max-w-7xl mx-auto min-h-screen">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold tracking-tight">Savings</h1>
-        <Badge variant="outline" className="bg-white px-4 py-1 text-sm font-medium shadow-sm">
+        <Badge variant="outline" className="light:bg-white px-4 py-1 text-sm font-medium shadow-sm">
           Currency: BDT (৳)
         </Badge>
       </div>
 
       {/* --- 1. Stats Cards --- */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="border-none shadow-md bg-white">
+        <Card className="border-none shadow-md light:bg-white">
           <CardHeader className="pb-2 text-muted-foreground text-sm font-medium flex flex-row items-center justify-between">
             Today's Savings <TrendingUp className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent className="text-2xl font-bold text-green-600">৳{data.stats.today.toLocaleString()}</CardContent>
         </Card>
 
-        <Card className="border-none shadow-md bg-white">
+        <Card className="border-none shadow-md light:bg-white">
           <CardHeader className="pb-2 text-muted-foreground text-sm font-medium flex flex-row items-center justify-between">
             This Month <TrendingUp className="h-4 w-4 text-blue-500" />
           </CardHeader>
@@ -122,7 +122,7 @@ export default function SavingsPage() {
                   className="bg-slate-50 border-none"
                 />
               </div>
-              <Button type="submit" variant="destructive" className="w-full shadow-lg shadow-red-200" disabled={loading}>
+              <Button type="submit" variant="destructive" className="w-full shadow-lg shadow-red-200 dark:shadow-red-50/0" disabled={loading}>
                 {loading ? "Processing..." : "Withdraw Now"}
               </Button>
             </form>
@@ -131,9 +131,9 @@ export default function SavingsPage() {
 
         {/* --- 3. History Table --- */}
         <Card className="lg:col-span-3 border-none shadow-md overflow-hidden">
-          <CardHeader className="bg-white border-b border-slate-100">
+          <CardHeader className="light:bg-white border-b border-slate-100">
             <CardTitle className="flex items-center gap-2 text-lg">
-              <History className="h-5 w-5 text-slate-500" /> Transaction History
+              <History className="h-5 w-5text-slate-500" /> Transaction History
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
@@ -153,7 +153,7 @@ export default function SavingsPage() {
                       {new Date(item.date).toLocaleDateString('en-GB')}
                     </TableCell>
                     <TableCell className="max-w-30 md:max-w-xs lg:max-w-none">
-                      <div className="font-medium text-slate-700 truncate" title={item.title}>
+                      <div className="font-medium text-slate-700 dark:text-slate-400 truncate" title={item.title}>
                         {item.title}
                       </div>
                     </TableCell>

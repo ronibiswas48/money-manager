@@ -4,12 +4,12 @@ import RegisterForm from "./RegisterForm";
 
 export default function AuthFormLayout() {
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-zinc-50 p-4">
-      <div className="w-full max-w-md border shadow-md rounded-md p-4">
+    <div className="w-full min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-800 p-4">
+      <div className="w-full max-w-md border shadow-md rounded-md p-4 dark:bg-zinc-900">
         
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-zinc-900">Welcome to LifeEasy</h1>
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-200">Welcome to LifeEasy</h1>
           <p className="text-zinc-500">Manage your money with ease</p>
         </div>
 
@@ -22,14 +22,14 @@ export default function AuthFormLayout() {
 
           {/* Login Content */}
           <TabsContent value="login">
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
+            <div className="bg-white dark:bg-black/50 p-6 rounded-lg border shadow-sm">
               <LoginForm />
             </div>
           </TabsContent>
 
           {/* Register Content */}
           <TabsContent value="register">
-            <div className="bg-white p-6 rounded-lg border shadow-sm">
+            <div className="bg-white dark:bg-black/50 p-6 rounded-lg border shadow-sm">
               <RegisterForm />
             </div>
           </TabsContent>
