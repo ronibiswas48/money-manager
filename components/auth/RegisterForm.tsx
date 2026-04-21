@@ -8,11 +8,17 @@ import { registerSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 
-export default function RegisterForm() {
-    const router = useRouter()
+// Prop interface
+interface RegisterFormProps {
+    onSuccess: () => void;
+}
+
+
+export default function RegisterForm(
+    {onSuccess}: RegisterFormProps
+) {
 
     const { register, handleSubmit,reset, formState: { errors, isSubmitting } } = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -28,14 +34,19 @@ export default function RegisterForm() {
         try {
             const response = await fetch('/api/register', {
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(values)
             })
             if(response.ok) {
                 toast.success('Registration successfully!')
                 reset();
-                router.push('/')
+                onSuccess();
+            }else {
+                const data = await response.json();
+                toast.error(data.message || 'Registration failed');
             }
         } catch (error) {
+            toast.error("Something went wrong!");
             console.error(error)
         }
     }

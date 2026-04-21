@@ -212,11 +212,11 @@ export default function StatementPage() {
                             ) : dailyData.map((day, i) => (
                                 <TableRow key={i}>
                                     <TableCell className="font-medium">{day.date}</TableCell>
-                                    <TableCell className="text-green-600">+৳{day.income}</TableCell>
-                                    <TableCell className="text-red-500">-৳{day.cost}</TableCell>
-                                    <TableCell className="text-orange-500">৳{day.withdraw}</TableCell>
+                                    <TableCell className="text-green-600">+{day.income}</TableCell>
+                                    <TableCell className="text-red-500">-{day.cost}</TableCell>
+                                    <TableCell className="text-orange-500">{day.withdraw}</TableCell>
                                     <TableCell className={`text-right font-bold ${day.income - day.cost >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
-                                        ৳{day.income - day.cost}
+                                        {day.income - day.cost}
                                     </TableCell>
                                 </TableRow>
                             ))}
