@@ -99,7 +99,7 @@ export default function StatementPage() {
         // 1. HEADER SECTION (User Info & Title)
         doc.setFontSize(20);
         doc.setTextColor(30, 41, 59); // Slate-800
-        doc.text("Money Manage - Statement", 14, 20);
+        doc.text("Life Easy - Statement", 14, 20);
 
         doc.setFontSize(10);
         doc.setTextColor(100);

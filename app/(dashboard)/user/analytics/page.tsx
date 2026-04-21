@@ -32,7 +32,7 @@ export default function AnalyticsPage() {
   if (loading) return <AnalyticsSkeleton />;
 
   return (
-    <div className="p-6 space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Financial Analytics</h1>
         <p className="text-muted-foreground">Deep dive into your income and spending patterns.</p>

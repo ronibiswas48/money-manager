@@ -9,7 +9,7 @@ export default function AuthFormLayout() {
         
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-zinc-900">Welcome to WalletWise</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">Welcome to LifeEasy</h1>
           <p className="text-zinc-500">Manage your money with ease</p>
         </div>
 

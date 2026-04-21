@@ -6,9 +6,9 @@ import {
   PiggyBank,
   FileText,
   User,
-  Settings,
   ShieldCheck,
-  ChartNoAxesCombined
+  ChartNoAxesCombined,
+  LogOut // Logout icon
 } from "lucide-react"
 
 import {
@@ -22,58 +22,53 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession, signOut } from "next-auth/react" // signOut import kora hoyeche
 
-// Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "/user",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Analytics",
-    url: "/user/analytics",
-    icon: ChartNoAxesCombined,
-  },
-  {
-    title: "History",
-    url: "/user/history",
-    icon: History,
-  },
-  {
-    title: "Savings",
-    url: "/user/savings",
-    icon: PiggyBank,
-  },
-  {
-    title: "Statement",
-    url: "/user/statement",
-    icon: FileText,
-  },
+  { title: "Home", url: "/user", icon: LayoutDashboard },
+  { title: "Analytics", url: "/user/analytics", icon: ChartNoAxesCombined },
+  { title: "History", url: "/user/history", icon: History },
+  { title: "Savings", url: "/user/savings", icon: PiggyBank },
+  { title: "Statement", url: "/user/statement", icon: FileText },
 ]
 
 const adminItems = [
-  {
-    title: "Admin Panel",
-    url: "/admin",
-    icon: ShieldCheck,
-  },
+  { title: "Admin Panel", url: "/admin", icon: ShieldCheck },
 ]
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const { data: session } = useSession()
+  const { setOpenMobile } = useSidebar()
+
+  const isAdmin = session?.user?.role === "admin"
+
+  const handleLinkClick = () => {
+    setOpenMobile(false)
+  }
+
+  // Logout function
+  const handleLogout = async () => {
+    await signOut({ 
+      callbackUrl: "/auth",
+      redirect: true 
+    })
+  }
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="transition-all duration-300 ease-in-out">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
-            W
+          <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shrink-0">
+            LE
           </div>
-          <span className="font-bold text-lg group-data-[collapsible=icon]:hidden">WalletWise</span>
+          <span className="font-bold text-lg group-data-[collapsible=icon]:hidden">
+            Life Easy
+          </span>
         </div>
       </SidebarHeader>
 
@@ -86,7 +81,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleLinkClick}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
@@ -97,34 +92,48 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Admin Group (Conditional Rendering logic lagate paren) */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Administrative</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Admin Group */}
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Administrative</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                      <Link href={item.url} onClick={handleLinkClick}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 border-t border-slate-100">
         <SidebarMenu>
+          {/* Profile Link */}
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === "/user/profile"}>
-              <Link href="/user/profile">
+              <Link href="/user/profile" onClick={handleLinkClick}>
                 <User />
                 <span>Profile</span>
               </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          {/* Logout Button */}
+          <SidebarMenuItem>
+            <SidebarMenuButton 
+              onClick={handleLogout}
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+            >
+              <LogOut />
+              <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

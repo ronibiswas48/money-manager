@@ -62,7 +62,7 @@ export default function SavingsPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto bg-slate-50/50 min-h-screen">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Savings Wallet</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Savings</h1>
         <Badge variant="outline" className="bg-white px-4 py-1 text-sm font-medium shadow-sm">
           Currency: BDT (৳)
         </Badge>
