@@ -5,9 +5,15 @@ import { dbConnect } from "@/database/db";
 import { authOptions } from "@/lib/auth";
 import { Transaction } from "@/models/Transaction";
 import mongoose from "mongoose";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Overview of your financial activity, income, expenses and savings at a glance.",
+}
 
 export default async function UserHomePage() {
   // check user are logged in

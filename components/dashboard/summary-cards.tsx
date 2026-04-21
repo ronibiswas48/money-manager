@@ -24,7 +24,7 @@ export function SummaryCards({ income, cost, balance }: any) {
         </CardContent>
       </Card>
 
-      <Card className={balance < 0 ? "border-red-500 bg-red-50/50" : ""}>
+      <Card className={balance < 0 ? "border-red-500 bg-red-50/50 dark:bg-red-50/20" : ""}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Today's Balance</CardTitle>
           <Wallet className={`h-4 w-4 ${balance < 0 ? "text-red-600" : "text-blue-600"}`} />
